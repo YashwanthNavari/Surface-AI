@@ -3,7 +3,15 @@
 
 <p align="center">
   <strong>An end-to-end industrial computer-vision platform for automated steel surface-defect classification, comparative deep-learning experimentation, explainable AI, and deployment-oriented inspection.</strong>
-  <br/><br/>
+</p>
+
+<p align="center">
+  <a href="https://github.com/YashwanthNavari/Surface-AI">
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=3000&pause=1000&color=2563EB&center=true&vCenter=true&multiline=false&width=750&lines=Manufacturing+Surface+Defect+Inspection+Platform;98.89%25+Benchmark+Accuracy+on+NEU-CLS+Dataset;Real-Time+Grad-CAM+Spatial+Explainability;Multi-Model+Consensus+Arbitration+Engine;Linear-Grade+Industrial+Vision+Workstation" alt="Surface AI Dynamic Banner" />
+  </a>
+</p>
+
+<p align="center">
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+"/></a>
   <a href="https://www.tensorflow.org/"><img src="https://img.shields.io/badge/TensorFlow-2.16%2B-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow 2.16+"/></a>
   <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-0.110%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/></a>
@@ -11,6 +19,12 @@
   <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 5"/></a>
   <a href="https://opencv.org/"><img src="https://img.shields.io/badge/OpenCV-Computer_Vision-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white" alt="OpenCV"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-16A34A?style=for-the-badge" alt="License MIT"/></a>
+</p>
+
+<p align="center">
+  <img src="docs/assets/demo.webp" alt="Surface AI Live Industrial Inspection Platform Demo" width="96%" style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.18); border: 1px solid rgba(229,231,235,0.8);" />
+  <br/>
+  <em>⚡ <strong>Live Platform Walkthrough</strong>: Real-time image ingestion, multi-model consensus prediction, and Grad-CAM spatial defect localization running at 59+ FPS.</em>
 </p>
 
 ---
@@ -34,8 +48,7 @@
 - [Evaluation Framework](#evaluation-framework)
 - [Explainable AI with Grad-CAM](#explainable-ai-with-grad-cam)
 - [Industrial Inspection Workflow](#industrial-inspection-workflow)
-- [Web Platform](#web-platform)
-- [Research Workstation](#research-workstation)
+- [Web Platform & Workspaces](#web-platform--workspaces)
 - [REST API](#rest-api)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
@@ -124,14 +137,14 @@ Surface AI investigates whether convolutional neural networks can provide a cons
 
 The system accepts an image of a steel surface and predicts one of six defect categories:
 
-| Class | Description |
-| :--- | :--- |
-| **Crazing** | Fine web-like tensile crack structures |
-| **Inclusion** | Embedded non-metallic particulate structures |
-| **Patches** | Localized diffuse surface-oxidation regions |
-| **Pitted Surface** | Localized porous/cavity-like surface defects |
-| **Rolled-in Scale** | Oxide scale mechanically incorporated into the surface |
-| **Scratches** | Sharp linear abrasion/groove structures |
+| Class | Description | Physical Failure Morphology |
+| :--- | :--- | :--- |
+| **Crazing** | Fine web-like crack structures | Micro-fissures from thermal fatigue during roll cooling passes |
+| **Inclusion** | Embedded non-metallic particulate structures | Slag particles or refractory debris pressed into strip surface |
+| **Patches** | Localized diffuse surface-oxidation regions | Secondary oxidation plates with non-uniform diffuse borders |
+| **Pitted Surface** | Localized porous/cavity-like surface defects | Mechanical roll crater indentation or descaling pinhole pits |
+| **Rolled-in Scale** | Oxide scale mechanically incorporated into the surface | High-temperature mill scale compressed during finish rolling |
+| **Scratches** | Sharp linear abrasion/groove structures | Longitudinal friction abrasion along run-out conveyor guides |
 
 ---
 
@@ -186,7 +199,7 @@ The project is designed around eight core engineering and scientific objectives:
 
 All quantitative metrics are measured on an untouched **270-image stratified test partition** ($15\%$ of the 1,800-image dataset).
 
-| Model | Architecture | Test Accuracy | Macro F1 | CPU Latency | Throughput | Parameters | Disk Size |
+| Model | Architecture Type | Test Accuracy | Macro F1 | CPU Latency | Throughput | Total Parameters | Disk Size |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **EfficientNetB0 Fine-Tuned** | Transfer Learning + Fine-Tuning | **98.89%** | **98.89%** | 25.9 ms | 38.6 FPS | 4,214,313 | 29.2 MB |
 | **EfficientNetB0 Frozen** | ImageNet Feature Extraction | **98.15%** | **98.15%** | 31.9 ms | 31.4 FPS | 4,214,313 | 18.2 MB |
@@ -256,94 +269,45 @@ This structure makes the repository appropriate for both **industrial inspection
 
 ## System Architecture
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│                    SURFACE AI PLATFORM                     │
-└────────────────────────────────────────────────────────────┘
-                         React + Vite
-                              │
-                         REST / HTTP
-                              ▼
-                   ┌──────────────────────┐
-                   │       FastAPI        │
-                   │     REST Backend     │
-                   └──────────┬───────────┘
-                              │
-         ┌────────────────────┼────────────────────┐
-         │                    │                    │
-         ▼                    ▼                    ▼
-    Custom CNN          EfficientNetB0       EfficientNetB0
-   (From Scratch)          (Frozen)           (Fine-Tuned)
-         │                    │                    │
-         └────────────────────┼────────────────────┘
-                              │
-                              ▼
-                       Consensus Engine
-                              │
-         ┌────────────────────┴────────────────────┐
-         ▼                                         ▼
-   Classification                              Grad-CAM
-   + Confidence                             Explainability
-         │                                         │
-         └────────────────────┬────────────────────┘
-                              │
-                              ▼
-                      Inspection Result
-                              │
-                              ▼
-                        SQLite History
+```mermaid
+graph TD
+    UI[🖥️ React 18 + Vite 5 Workstation] -->|REST / HTTP Requests| API[⚡ FastAPI Backend Service :8000]
+    
+    subgraph Ensemble Inference Tier
+        API --> M1[Custom 4-Stage CNN<br/>422K Params │ 16.9ms Latency]
+        API --> M2[EfficientNetB0 Frozen<br/>4.2M Params │ 31.9ms Latency]
+        API --> M3[EfficientNetB0 Fine-Tuned<br/>4.2M Params │ 25.9ms Latency]
+    end
+    
+    M1 & M2 & M3 --> CONSENSUS{🛡️ Consensus Arbitration<br/>3/3 Agreement Check}
+    
+    CONSENSUS -->|Agreed / High Confidence| RES[✅ Verified Classification]
+    CONSENSUS -->|Disagreement Detected| ALERT[⚠️ Manual Inspection Alert]
+    
+    RES & ALERT --> XAI[🔬 Grad-CAM Explainability<br/>Class-Specific Heatmap Overlay]
+    RES & ALERT --> DB[(💾 SQLite Audit Stream<br/>inspections.db)]
 ```
 
 ---
 
 ## Machine Learning Pipeline
 
-```text
-Raw NEU Images
-      │
-      ▼
-Dataset Validation
-      │
-      ▼
-Stratified Train / Validation / Test Split
-      │
-      ├───────────────────────────────┐
-      │                               │
-      ▼                               ▼
-   Training                    Validation / Test
-      │                               │
-      ▼                               ▼
-Resize 224×224                  Resize 224×224
-      │                               │
-      ▼                               ▼
-RGB Conversion                  RGB Conversion
-      │                               │
-      ▼                               ▼
-Normalization                   Normalization
-      │                               │
-      ▼                               │
-Training Augmentation                 │
-      │                               │
-      ▼                               ▼
-CNN / EfficientNet ◄──────────────────┘
-      │
-      ▼
-Validation & Checkpointing
-      │
-      ▼
-Fine-Tuning (Pretrained Models)
-      │
-      ▼
-Untouched Test Set Evaluation
-      │
-      ▼
-Metrics + Confusion Matrix
-      │
-      ▼
-Error Analysis & Post-Mortem
-      │
-      ▼
-Grad-CAM Feature Attribution
+```mermaid
+graph LR
+    A[📦 Raw NEU Images<br/>1,800 Specimens] --> B[✂️ Stratified Split<br/>70% Train │ 15% Val │ 15% Test]
+    
+    B --> C[🧪 Training Split<br/>1,260 Images]
+    B --> D[🛡️ Untouched Test Split<br/>270 Images]
+    
+    C --> E[🔄 Preprocessing & Augmentation<br/>Resize 224x224 │ Flips │ Zoom]
+    D --> F[📐 Preprocessing Only<br/>Resize 224x224 │ Zero Augmentation]
+    
+    E --> G[🧠 Custom CNN & EfficientNetB0]
+    G --> H[📈 Model Checkpointing & Early Stopping]
+    
+    H --> I[🎯 Test Evaluation on Split D]
+    I --> J[📊 98.89% Accuracy & 6x6 Confusion Matrix]
+    I --> K[🔬 Grad-CAM Feature Attribution]
 ```
 
 ---
@@ -516,11 +480,15 @@ To evaluate the contribution of individual regularization techniques, controlled
 | **L2 Regularization** | Weight Decay ($\lambda = 1\times 10^{-4}$) on Conv kernels | — | *Planned / Extensible* |
 | **Optimizer Ablation** | Alternate Optimizers (SGD with Momentum, RMSprop) | — | *Planned / Extensible* |
 
-### Scientific Post-Mortem on CNN-C
-
-The CNN-C experiment demonstrated severe degradation ($25.19\%$ accuracy) and was stopped by the training callbacks. Rather than concealing this outcome, it is documented as a key experimental finding:
-- **Root Cause**: The interaction between aggressive dropout rates and batch normalization layer statistics on small batch sizes led to running-mean and variance instability during inference.
-- **Methodological Takeaway**: Adding multiple regularizers concurrently without tuning their mutual interactions can destabilize convergence. This finding validates why baseline architectures (CNN-A/B) often outperform overly regularized variants on compact datasets.
+<details>
+<summary><b>🔬 Scientific Post-Mortem on the CNN-C Experiment (Click to expand)</b></summary>
+<br/>
+<p>The CNN-C experiment demonstrated severe degradation (25.19% accuracy) and was stopped by the training callbacks. Rather than concealing this outcome, it is documented as a key experimental finding:</p>
+<ul>
+  <li><strong>Root Cause</strong>: The interaction between aggressive dropout rates and batch normalization layer statistics on small batch sizes led to running-mean and variance instability during inference.</li>
+  <li><strong>Methodological Takeaway</strong>: Adding multiple regularizers concurrently without tuning their mutual interactions can destabilize convergence. This finding validates why baseline architectures (CNN-A/B) often outperform overly regularized variants on compact datasets.</li>
+</ul>
+</details>
 
 ---
 
@@ -560,12 +528,6 @@ For the balanced 6-class NEU benchmark, **Macro F1** serves as the primary metri
 
 $$\text{Macro F1} = \frac{1}{K} \sum_{k=1}^{K} \text{F1}_k$$
 
-### Training Diagnostics
-
-The platform captures and visualizes complete epoch-level learning dynamics:
-- **Loss Trajectories**: Identifies underfitting, overfitting thresholds, and optimization stability.
-- **Generalization Gap**: Measures divergence between training and validation loss curves.
-
 ---
 
 ### Confusion Matrix
@@ -585,7 +547,9 @@ L
 ```
 *(Cr: Crazing, In: Inclusion, Pa: Patches, PS: Pitted Surface, RS: Rolled-in Scale, Sc: Scratches)*
 
-### Per-Class Performance Breakdown
+<details open>
+<summary><b>📊 Per-Class Performance Breakdown (Click to collapse)</b></summary>
+<br/>
 
 | Defect Class | Precision | Recall | F1-Score | Support | Identification Assessment |
 | :--- | :---: | :---: | :---: | :---: | :--- |
@@ -596,17 +560,23 @@ L
 | **Rolled-in Scale** | 1.0000 | 1.0000 | **1.0000** | 45 | High-contrast embedded mechanical scale lines |
 | **Scratches** | 1.0000 | 0.9333 | **0.9655** | 45 | Linear abrasion; 3 samples confused with Inclusion |
 
+</details>
+
 ---
 
-### Error Post-Mortem Analysis
+<details open>
+<summary><b>⚠️ Error Post-Mortem Analysis (3 Misclassified Test Samples)</b></summary>
+<br/>
 
 The fine-tuned EfficientNetB0 misclassified only **3 out of 270 test samples** ($1.11\%$ error rate):
 
-| Sample ID | True Class | Predicted Class | Confidence | Failure Mode Analysis |
+| Sample Specimen | True Label | Model Prediction | Confidence | Morphological Failure Root Cause |
 | :--- | :---: | :---: | :---: | :--- |
-| `scratches_96.jpg` | Scratches | Inclusion | 78.4% | Discontinuous linear scratching breaks down into isolated particulate segments mimicking small inclusions. |
-| `scratches_44.jpg` | Scratches | Inclusion | 83.1% | Low contrast abrasion track with heavy granular background texture resembling rolled-in impurities. |
-| `scratches_69.jpg` | Scratches | Inclusion | 71.9% | Abrasion groove accompanied by local pitting; model weighted the point-like pit features over the weak linear groove. |
+| `<kbd>scratches_96.jpg</kbd>` | Scratches | Inclusion | 78.4% | Discontinuous linear scratching breaks down into isolated particulate segments mimicking small inclusions. |
+| `<kbd>scratches_44.jpg</kbd>` | Scratches | Inclusion | 83.1% | Low-contrast abrasion track with heavy granular background texture resembling rolled-in slag impurities. |
+| `<kbd>scratches_69.jpg</kbd>` | Scratches | Inclusion | 71.9% | Abrasion groove accompanied by local pitting; model weighted point-like pit features over the weak linear groove. |
+
+</details>
 
 ---
 
@@ -691,7 +661,7 @@ Grad-CAM confirms that the deep learning models focus on physical fissures, scal
 
 ---
 
-## Web Platform
+## Web Platform & Workspaces
 
 Surface AI is built as a unified full-stack application connecting machine learning inference with an industrial-grade user interface:
 
@@ -699,29 +669,52 @@ Surface AI is built as a unified full-stack application connecting machine learn
 - **Backend**: FastAPI (Python 3.10+) serving asynchronous endpoints for multi-model inference, consensus arbitration, Grad-CAM generation, and historical database queries.
 - **Persistence**: SQLite database (`inspections.db`) recording audit trails, latency metrics, predictions, confidence scores, and operator annotations.
 
----
+### Interactive Workspaces Gallery
 
-## Research Workstation
+<details open>
+<summary><b>🛰️ Workspace 1: Mission Control — System Telemetry & Executive Overview</b></summary>
+<br/>
+<p align="center">
+  <img src="docs/assets/mission_control.png" alt="Mission Control Workspace" width="94%" style="border-radius: 8px; border: 1px solid #e5e7eb;" />
+</p>
+<p>Executive instrumentation displaying live test-set dimensions, hardware throughput, active deep learning backbones, and the 6-class hot-rolled defect taxonomy.</p>
+</details>
 
-The interface is structured into five functional workspaces:
+<details open>
+<summary><b>🔍 Workspace 2: Live Inspection — Real-Time Consensus & Spatial Inspection</b></summary>
+<br/>
+<p align="center">
+  <img src="docs/assets/live_inspection.png" alt="Live Inspection Workspace" width="94%" style="border-radius: 8px; border: 1px solid #e5e7eb;" />
+</p>
+<p>Interactive inspection viewport with real-time consensus arbitration (3/3 agreement confirmation), interactive zoom controls, opacity blending slider, and one-click test split specimen loaders.</p>
+</details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│  SURFACE AI WORKSTATION                                                │
-├──────────────┬─────────────────────────────────────────────────────────┤
-│ Navigation   │ [1] Mission Control       — System overview & metrics   │
-│              │ [2] Live Inspection       — Real-time inspection viewer │
-│ Workspaces   │ [3] Explainability Lab    — Grad-CAM XAI diagnostic hub │
-│              │ [4] Research & Experiments— Trajectories & ablations    │
-│              │ [5] Audit Stream          — Historical inspection logs  │
-└──────────────┴─────────────────────────────────────────────────────────┘
-```
+<details open>
+<summary><b>🔬 Workspace 3: Explainability Lab — Multi-Model Grad-CAM Diagnostics</b></summary>
+<br/>
+<p align="center">
+  <img src="docs/assets/gradcam_lab.png" alt="Explainability Lab Workspace" width="94%" style="border-radius: 8px; border: 1px solid #e5e7eb;" />
+</p>
+<p>Synchronized triple-viewport comparing raw metallurgical specimens against class-specific activation energy distributions and defect overlays across model backbones.</p>
+</details>
 
-1. **Mission Control**: Executive telemetry displaying active models, test set dimensions, average latency, and the six-class defect taxonomy.
-2. **Live Inspection**: Interactive inspection console with zoom controls, opacity sliders, multi-model consensus status, and benchmark specimen pickers.
-3. **Explainability Lab**: In-depth Grad-CAM diagnostic studio with model-switching, class targeting, and visual heatmaps.
-4. **Research & Experiments**: Academic laboratory displaying training loss/accuracy trajectories, the $6\times 6$ confusion matrix, ablation tables, and the error post-mortem.
-5. **Audit Stream**: Historical record of inspection events with defect filtering, query search, and one-click CSV export.
+<details open>
+<summary><b>📊 Workspace 4: Research & Experiments — Diagnostic Curves & Confusion Matrix</b></summary>
+<br/>
+<p align="center">
+  <img src="docs/assets/research_lab.png" alt="Research & Experiments Workspace" width="94%" style="border-radius: 8px; border: 1px solid #e5e7eb;" />
+</p>
+<p>Comprehensive academic workbench with dynamic SVG training loss/accuracy trajectories, full 6x6 test confusion matrix, precision/recall/F1 breakdowns, and the 3-sample error post-mortem.</p>
+</details>
+
+<details open>
+<summary><b>📜 Workspace 5: Audit Stream — SQLite Event Timeline & CSV Export</b></summary>
+<br/>
+<p align="center">
+  <img src="docs/assets/audit_stream.png" alt="Audit Stream Workspace" width="94%" style="border-radius: 8px; border: 1px solid #e5e7eb;" />
+</p>
+<p>Immutable audit logging capturing every inspection with defect classifications, multi-model consensus status, inference latencies, instant search, and one-click CSV export.</p>
+</details>
 
 ---
 
@@ -816,6 +809,9 @@ Surface-AI/
 │   ├── training/                   # Model training & fine-tuning pipelines
 │   ├── evaluation/                 # Metrics & benchmarking routines
 │   └── explainability/             # Core Grad-CAM algorithm implementation
+│
+├── docs/
+│   └── assets/                    # Screenshots, UI recordings, and demo assets
 │
 ├── requirements.txt                # Python environment specifications
 ├── README.md                       # Comprehensive documentation
