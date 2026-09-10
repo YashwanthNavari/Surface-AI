@@ -1,0 +1,18 @@
+{
+  "experiment_id": "CNN-A",
+  "name": "Custom CNN (No Aug, Baseline)",
+  "augmentation": false,
+  "batch_norm": false,
+  "dropout": 0.0,
+  "epochs_trained": 25,
+  "train_duration_sec": 2660.47,
+  "test_accuracy": 0.9407,
+  "macro_precision": 0.9416,
+  "macro_recall": 0.9407,
+  "macro_f1": 0.9407,
+  "weighted_f1": 0.9407,
+  "inference_latency_ms": 23.44,
+  "throughput_fps": 42.7,
+  "total_parameters": 422086,
+  "trainable_parameters": 422086
+}

@@ -1,0 +1,4 @@
+experiment_id,name,augmentation,batch_norm,dropout,epochs_trained,train_duration_sec,test_accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,inference_latency_ms,throughput_fps,total_parameters,trainable_parameters
+CNN-A,"Custom CNN (No Aug, Baseline)",False,False,0.0,25,2660.47,0.9407,0.9416,0.9407,0.9407,0.9407,23.44,42.7,422086,422086
+CNN-B,Custom CNN (+ Augmentation),True,False,0.0,30,868.62,0.9407,0.9411,0.9407,0.9403,0.9403,16.88,59.2,422086,422086
+CNN-C,Custom CNN (+ Aug + BatchNorm + Dropout),True,True,0.5,11,519.04,0.2519,0.0925,0.2519,0.1312,0.1312,19.78,50.6,424006,423046

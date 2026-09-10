@@ -1,0 +1,7 @@
+Class,Precision,Recall,F1_Score,Support
+Crazing,93.62,97.78,95.65,45
+Inclusion,81.63,88.89,85.11,45
+Patches,95.74,100.0,97.83,45
+Pitted Surface,86.49,71.11,78.05,45
+Rolled-In Scale,95.65,97.78,96.7,45
+Scratches,90.91,88.89,89.89,45

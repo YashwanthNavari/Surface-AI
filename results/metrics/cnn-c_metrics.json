@@ -1,0 +1,18 @@
+{
+  "experiment_id": "CNN-C",
+  "name": "Custom CNN (+ Aug + BatchNorm + Dropout)",
+  "augmentation": true,
+  "batch_norm": true,
+  "dropout": 0.5,
+  "epochs_trained": 11,
+  "train_duration_sec": 519.04,
+  "test_accuracy": 0.2519,
+  "macro_precision": 0.0925,
+  "macro_recall": 0.2519,
+  "macro_f1": 0.1312,
+  "weighted_f1": 0.1312,
+  "inference_latency_ms": 19.78,
+  "throughput_fps": 50.6,
+  "total_parameters": 424006,
+  "trainable_parameters": 423046
+}

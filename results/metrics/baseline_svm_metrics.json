@@ -1,0 +1,13 @@
+{
+  "model": "HOG + GLCM + SVM",
+  "category": "Classical Baseline",
+  "feature_dim": 5448,
+  "train_time_sec": 32.58,
+  "test_accuracy": 0.9222,
+  "macro_precision": 0.9243,
+  "macro_recall": 0.9222,
+  "macro_f1": 0.9216,
+  "weighted_f1": 0.9216,
+  "inference_latency_ms": 10.7,
+  "throughput_fps": 93.5
+}

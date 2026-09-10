@@ -1,0 +1,26 @@
+# Core Deep Learning & Computer Vision
+tensorflow>=2.16.0
+keras>=3.0.0
+opencv-python>=4.8.0
+scikit-image>=0.22.0
+pillow>=10.2.0
+
+# Scientific & Classical Machine Learning
+numpy>=1.24.0,<2.0.0
+pandas>=2.2.0
+scikit-learn>=1.4.0
+
+# Visualization & Data Analysis
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Configuration & Utilities
+pyyaml>=6.0.1
+tqdm>=4.66.0
+requests>=2.31.0
+
+# Backend & API Serving
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+pydantic>=2.6.0
+python-multipart>=0.0.9

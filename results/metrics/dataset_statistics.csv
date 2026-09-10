@@ -1,0 +1,7 @@
+class,Image_Count,Height,Width,Mean_Pixel_Val,Pixel_Val_Std,Avg_Texture_Contrast
+crazing,300,200,200,141.11,28.67,29.05
+inclusion,300,200,200,106.37,33.87,13.02
+patches,300,200,200,132.51,43.06,54.22
+pitted_surface,300,200,200,176.67,49.35,26.68
+rolled-in_scale,300,200,200,117.91,24.62,16.09
+scratches,300,200,200,95.15,29.09,21.7

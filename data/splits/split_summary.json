@@ -1,0 +1,38 @@
+{
+  "random_seed": 42,
+  "total_samples": 1800,
+  "train_samples": 1260,
+  "val_samples": 270,
+  "test_samples": 270,
+  "ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "per_class_counts": {
+    "train": {
+      "scratches": 210,
+      "patches": 210,
+      "crazing": 210,
+      "inclusion": 210,
+      "pitted_surface": 210,
+      "rolled-in_scale": 210
+    },
+    "val": {
+      "scratches": 45,
+      "rolled-in_scale": 45,
+      "patches": 45,
+      "inclusion": 45,
+      "pitted_surface": 45,
+      "crazing": 45
+    },
+    "test": {
+      "patches": 45,
+      "inclusion": 45,
+      "pitted_surface": 45,
+      "scratches": 45,
+      "rolled-in_scale": 45,
+      "crazing": 45
+    }
+  }
+}

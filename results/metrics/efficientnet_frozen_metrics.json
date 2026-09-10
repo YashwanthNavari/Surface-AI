@@ -1,0 +1,16 @@
+{
+  "experiment_id": "E4",
+  "model": "EfficientNetB0 (Frozen)",
+  "backbone": "ImageNet",
+  "epochs_trained": 25,
+  "train_duration_sec": 1798.12,
+  "test_accuracy": 0.9815,
+  "macro_precision": 0.9825,
+  "macro_recall": 0.9815,
+  "macro_f1": 0.9815,
+  "weighted_f1": 0.9815,
+  "inference_latency_ms": 104.47,
+  "throughput_fps": 9.6,
+  "total_parameters": 4214313,
+  "trainable_parameters": 164742
+}

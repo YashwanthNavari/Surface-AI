@@ -1,0 +1,16 @@
+{
+  "experiment_id": "E5",
+  "model": "EfficientNetB0 (Fine-Tuned)",
+  "backbone": "ImageNet (Top 30 layers unfrozen)",
+  "epochs_trained": 9,
+  "train_duration_sec": 1057.13,
+  "test_accuracy": 0.9889,
+  "macro_precision": 0.9896,
+  "macro_recall": 0.9889,
+  "macro_f1": 0.9889,
+  "weighted_f1": 0.9889,
+  "inference_latency_ms": 45.81,
+  "throughput_fps": 21.8,
+  "total_parameters": 4214313,
+  "trainable_parameters": 1619302
+}
