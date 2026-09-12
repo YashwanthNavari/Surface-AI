@@ -3,12 +3,13 @@ import { ArrowRight, ShieldCheck, Zap, Activity } from 'lucide-react';
 import MetricCard from './MetricCard';
 import StatusBadge from './StatusBadge';
 import ConfidenceBar from './ConfidenceBar';
+import { API_BASE_URL } from '../config';
 
 export default function MissionControl({ onNavigateWorkspace, recentHistory = [] }) {
   const [metrics, setMetrics] = useState(null);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/v1/metrics')
+    fetch(`${API_BASE_URL}/api/v1/metrics`)
       .then((res) => res.json())
       .then((data) => setMetrics(data))
       .catch((err) => console.error('Error fetching benchmarks:', err));
@@ -23,7 +24,7 @@ export default function MissionControl({ onNavigateWorkspace, recentHistory = []
   const modelsData = metrics?.models || [
     { Model: 'EfficientNetB0 (Fine-Tuned)', Type: 'Transfer Learning', 'Accuracy (%)': 98.89, 'Macro F1 (%)': 98.89, 'Latency (ms)': 25.9, 'Total Parameters': '4.2M', isChampion: true },
     { Model: 'EfficientNetB0 (Frozen)', Type: 'Transfer Learning', 'Accuracy (%)': 98.15, 'Macro F1 (%)': 98.15, 'Latency (ms)': 31.9, 'Total Parameters': '4.2M' },
-    { Model: 'Custom 4-Stage CNN', Type: 'From Scratch', 'Accuracy (%)': 94.07, 'Macro F1 (%)': 94.03, 'Latency (ms)': 16.9, 'Total Parameters': '422K', isEdge: true },
+    { Model: 'Custom 4-Stage CNN', Type: 'From Scratch', 'Accuracy (%)': 91.11, 'Macro F1 (%)': 90.93, 'Latency (ms)': 16.9, 'Total Parameters': '422K', isEdge: true },
     { Model: 'HOG + GLCM + SVM', Type: 'Classical ML', 'Accuracy (%)': 92.22, 'Macro F1 (%)': 92.16, 'Latency (ms)': 10.7, 'Total Parameters': 'N/A' },
   ];
 
@@ -62,7 +63,7 @@ export default function MissionControl({ onNavigateWorkspace, recentHistory = []
         />
         <MetricCard
           label="Custom CNN"
-          value="94.07%"
+          value="91.11%"
           subtext="Trained from scratch"
           highlightColor="var(--accent-blue)"
         />
@@ -173,7 +174,7 @@ export default function MissionControl({ onNavigateWorkspace, recentHistory = []
               <circle cx="52" cy="115" r="5" fill="#6B7280" />
               <text x="58" y="125" fontSize="10" fill="var(--text-secondary)">HOG+SVM (92.2%)</text>
 
-              {/* Point 2: Custom CNN (16.9ms, 94.07%) */}
+              {/* Point 2: Custom CNN (16.9ms, 91.11%) */}
               <circle cx="110" cy="92" r="5.5" fill="var(--accent-blue)" />
               <text x="116" y="90" fontSize="10" fill="var(--accent-blue)" fontWeight="600">Custom CNN (94.1%)</text>
 

@@ -39,8 +39,11 @@ app = FastAPI(
 # Enable CORS for local React development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -103,6 +106,12 @@ async def explain_defect(
     Generates Grad-CAM visual activation heatmaps and overlay for any uploaded image
     using the specified model ('custom_cnn', 'efficientnet_frozen', or 'efficientnet_finetuned').
     """
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(
+            status_code=400,
+            detail="Uploaded file must be a valid image."
+        )
+
     image_bytes = await file.read()
     try:
         explanation = explain_image(image_bytes, selected_model=model_name)
@@ -146,6 +155,8 @@ def get_history(limit: int = 25):
             filename=r["filename"],
             primary_prediction=r["primary_prediction"],
             primary_confidence=r["primary_confidence"],
+            consensus_count=r["consensus_count"],
+            total_models=r["total_models"],
             consensus_status=r["consensus_status"],
             recommendation=r["recommendation"],
         )
@@ -184,7 +195,14 @@ def serve_sample_image(cls_name: str, filename: str):
     img_path = PROJECT_ROOT / "data" / "raw" / "NEU-CLS" / cls_name / filename
     if not img_path.exists():
         raise HTTPException(status_code=404, detail="Sample image not found.")
-    return FileResponse(str(img_path), media_type="image/jpeg")
+    
+    from mimetypes import guess_type
+    media_type, _ = guess_type(str(img_path))
+    
+    return FileResponse(
+        str(img_path),
+        media_type=media_type or "application/octet-stream"
+    )
 
 if __name__ == "__main__":
     import uvicorn

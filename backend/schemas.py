@@ -19,6 +19,7 @@ class InspectionResponse(BaseModel):
     recommendation: str    # "Automated Pass" or "Manual Inspection Recommended"
     models: Dict[str, ModelPrediction]
     timestamp: str
+    inference_time_ms: Optional[float] = None
     inspection_id: Optional[int] = None
 
 class GradCAMResponse(BaseModel):
@@ -35,6 +36,8 @@ class InspectionHistoryItem(BaseModel):
     filename: str
     primary_prediction: str
     primary_confidence: float
+    consensus_count: int
+    total_models: int
     consensus_status: str
     recommendation: str
 

@@ -60,7 +60,7 @@ export const TRAINING_CURVES_DATA = {
       "epoch": 9,
       "accuracy": 91.67,
       "loss": 0.2267,
-      "val_accuracy": 90.74,
+      "val_accuracy": 90.93,
       "val_loss": 0.2146
     },
     {
@@ -151,7 +151,7 @@ export const TRAINING_CURVES_DATA = {
       "epoch": 22,
       "accuracy": 96.11,
       "loss": 0.1212,
-      "val_accuracy": 94.07,
+      "val_accuracy": 91.11,
       "val_loss": 0.1218
     },
     {
@@ -472,7 +472,7 @@ export const TRAINING_CURVES_DATA = {
       "epoch": 1,
       "accuracy": 67.06,
       "loss": 1.1223,
-      "val_accuracy": 90.74,
+      "val_accuracy": 90.93,
       "val_loss": 0.6424
     },
     {

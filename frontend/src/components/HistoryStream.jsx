@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Download, RefreshCw, Filter, Search, ArrowRight } from 'lucide-react';
 import StatusBadge from './StatusBadge';
+import { API_BASE_URL } from '../config';
 
 export default function HistoryStream({ onSelectInspection }) {
   const [history, setHistory] = useState([]);
@@ -10,7 +11,7 @@ export default function HistoryStream({ onSelectInspection }) {
 
   const fetchHistory = () => {
     setLoading(true);
-    fetch('http://127.0.0.1:8000/api/v1/history?limit=100')
+    fetch(`${API_BASE_URL}/api/v1/history?limit=100`)
       .then((res) => res.json())
       .then((data) => {
         setHistory(data);
@@ -149,7 +150,7 @@ export default function HistoryStream({ onSelectInspection }) {
       ) : (
         <div className="timeline-list">
           {filteredHistory.map((item) => {
-            const isAgreed = item.consensus_status === 'AGREED' || item.consensus_status === 'CONSENSUS';
+            const isAgreed = item.consensus_status === 'CONSENSUS_AGREED';
             return (
               <div key={item.id} className="timeline-row">
                 {/* Left: ID + Defect Name + Consensus Badge */}
@@ -175,7 +176,7 @@ export default function HistoryStream({ onSelectInspection }) {
                         {formatClassName(item.primary_prediction)}
                       </span>
                       <StatusBadge type={isAgreed ? 'agreed' : 'disagreed'}>
-                        {isAgreed ? '3/3 models agree' : 'Disagreement'}
+                        {isAgreed ? `${item.consensus_count}/${item.total_models} models agree` : 'Disagreement'}
                       </StatusBadge>
                     </div>
 
@@ -201,7 +202,7 @@ export default function HistoryStream({ onSelectInspection }) {
                     onClick={() => onSelectInspection(item)}
                     style={{ padding: '6px 12px', fontSize: '12px' }}
                   >
-                    <span>View inspection</span>
+                    <span>Re-run representative sample</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

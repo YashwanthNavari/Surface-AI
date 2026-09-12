@@ -46,6 +46,9 @@ def predict_single_image(image_bytes: bytes, filename: str = "upload.jpg") -> Di
     Runs multi-model inference on uploaded image bytes.
     Computes ensemble consensus and recommendation.
     """
+    import time
+    start_time = time.perf_counter()
+
     models = get_models()
     if not models:
         raise RuntimeError("No models loaded. Ensure model weights exist in models/.")
@@ -127,6 +130,9 @@ def predict_single_image(image_bytes: bytes, filename: str = "upload.jpg") -> Di
         confidence_tier = "LOW CONFIDENCE" if primary_conf < med_th else "DISPUTED CONSENSUS"
         recommendation = "Manual Inspection Recommended"
 
+    end_time = time.perf_counter()
+    inference_time_ms = round((end_time - start_time) * 1000, 2)
+
     return {
         "primary_prediction": primary_pred,
         "primary_confidence": primary_conf,
@@ -136,4 +142,5 @@ def predict_single_image(image_bytes: bytes, filename: str = "upload.jpg") -> Di
         "confidence_tier": confidence_tier,
         "recommendation": recommendation,
         "models": model_results,
+        "inference_time_ms": inference_time_ms,
     }

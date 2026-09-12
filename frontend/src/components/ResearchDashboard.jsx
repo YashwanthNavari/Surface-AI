@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart3, Activity, Cpu, Layers, CheckCircle2, TrendingUp, Zap } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export default function ResearchDashboard() {
   const [metricsData, setMetricsData] = useState({ models: [], per_class: {} });
@@ -7,7 +8,7 @@ export default function ResearchDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/v1/metrics')
+    fetch(`${API_BASE_URL}/api/v1/metrics`)
       .then((res) => res.json())
       .then((data) => {
         setMetricsData(data);
@@ -56,7 +57,7 @@ export default function ResearchDashboard() {
             Scratch CNN Test Accuracy
           </div>
           <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--cyan-primary)', marginTop: '0.4rem' }}>
-            94.07%
+            91.11%
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
             Custom 4-Stage ConvNet
@@ -135,10 +136,10 @@ export default function ResearchDashboard() {
                   <strong style={{ color: 'var(--text-primary)' }}>Custom 4-Stage CNN</strong>
                 </td>
                 <td>Deep Learning (Scratch)</td>
-                <td style={{ fontFamily: 'var(--font-mono)', color: 'var(--cyan-primary)', fontWeight: 700 }}>94.07%</td>
+                <td style={{ fontFamily: 'var(--font-mono)', color: 'var(--cyan-primary)', fontWeight: 700 }}>91.11%</td>
                 <td style={{ fontFamily: 'var(--font-mono)' }}>94.11%</td>
-                <td style={{ fontFamily: 'var(--font-mono)' }}>94.07%</td>
-                <td style={{ fontFamily: 'var(--font-mono)', color: 'var(--cyan-primary)', fontWeight: 700 }}>94.03%</td>
+                <td style={{ fontFamily: 'var(--font-mono)' }}>91.11%</td>
+                <td style={{ fontFamily: 'var(--font-mono)', color: 'var(--cyan-primary)', fontWeight: 700 }}>90.93%</td>
                 <td style={{ fontFamily: 'var(--font-mono)' }}>16.88 ms</td>
                 <td style={{ fontFamily: 'var(--font-mono)' }}>59.2</td>
                 <td style={{ fontFamily: 'var(--font-mono)' }}>422,086</td>
@@ -256,7 +257,7 @@ export default function ResearchDashboard() {
           </div>
           <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.6 }} className="space-y-3">
             <p>
-              <strong>RQ1 (Custom CNN):</strong> The custom 4-stage convolutional neural network successfully reaches <strong>94.07% accuracy</strong> with only 422K parameters, operating at a high throughput of 59.2 FPS.
+              <strong>RQ1 (Custom CNN):</strong> The custom 4-stage convolutional neural network successfully reaches <strong>91.11% accuracy</strong> with only 422K parameters, operating at a high throughput of 59.2 FPS.
             </p>
             <p>
               <strong>RQ2 (Transfer Learning):</strong> Initializing with ImageNet weights lifts performance to <strong>98.15%</strong> (an immediate +4.08% improvement), showing that generic spatial low-level edge features readily transfer to industrial strip textures.

@@ -57,7 +57,7 @@ export const HYPERPARAMETER_EXPERIMENT_GRID = [
   {
     parameter: 'Learning Rate (Backbone Fine-Tuning)',
     testedValues: [
-      { value: '1e-3 (Custom CNN Adam)', accuracy: '94.07%', status: 'Completed (CNN-A / CNN-B)', isChampion: false },
+      { value: '1e-3 (Custom CNN Adam)', accuracy: '91.11%', status: 'Completed (CNN-A / CNN-B)', isChampion: false },
       { value: '1e-4 (Fine-Tuning Adam)', accuracy: '98.89%', status: 'Completed (Fine-Tuned EffNet)', isChampion: true },
       { value: '3e-4 (Exploratory)', accuracy: '—', status: 'Extensible Scope', isChampion: false },
       { value: '1e-5 (Cautious Fine-Tune)', accuracy: '—', status: 'Extensible Scope', isChampion: false }

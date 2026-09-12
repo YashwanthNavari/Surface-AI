@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, Layers, Cpu, CheckCircle2, Sliders, Info, ArrowLeft } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const MODELS = [
   { id: 'efficientnet_finetuned', name: 'Fine-Tuned EfficientNetB0', badge: 'Best Authority' },
@@ -27,7 +28,7 @@ export default function GradcamStudio({ currentFile, currentResult, onBackToCons
       formData.append('file', currentFile);
       formData.append('model_name', modelId);
 
-      const res = await fetch('http://127.0.0.1:8000/api/v1/explain', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/explain`, {
         method: 'POST',
         body: formData,
       });

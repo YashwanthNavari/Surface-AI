@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Sliders, Layers, Eye, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import StatusBadge from './StatusBadge';
+import { API_BASE_URL } from '../config';
 
 const ARCHITECTURES = [
   { id: 'efficientnet_finetuned', name: 'Fine-Tuned EfficientNetB0', tag: 'Top Authority' },
@@ -28,7 +29,7 @@ export default function ExplainabilityLab({ currentFile, onBackToInspection }) {
       formData.append('file', currentFile);
       formData.append('model_name', modelId);
 
-      const res = await fetch('http://127.0.0.1:8000/api/v1/explain', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/explain`, {
         method: 'POST',
         body: formData,
       });

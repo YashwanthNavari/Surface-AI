@@ -1,5 +1,5 @@
 Model,Type,Accuracy (%),Macro Precision (%),Macro Recall (%),Macro F1 (%),Weighted F1 (%),Latency (ms),Throughput (FPS),Total Parameters,Trainable Parameters,Disk Size (MB)
-HOG + GLCM + SVM,Classical Machine Learning,92.22,92.43,92.22,92.16,92.16,10.7,93.5,N/A,N/A,N/A
-Custom CNN (From Scratch),Deep Learning (Custom),90.74,90.67,90.74,90.54,90.54,35.84243962962689,27.899886568363307,"422,086","422,086",4.9
-EfficientNetB0 (Frozen Backbone),Transfer Learning,98.15,98.25,98.15,98.15,98.15,31.875127555556702,31.372423475233212,"4,214,313","164,742",18.15
+HOG + GLCM + SVM,Classical Machine Learning,92.22,92.43,92.22,92.16,92.16,10.7,93.5,,,
+Custom CNN (From Scratch),Deep Learning (Custom),91.11,91.02,91.11,90.93,90.93,35.84243962962689,27.899886568363307,"422,086","422,086",4.9
+EfficientNetB0 (Frozen Backbone),Transfer Learning,98.15,98.25,98.15,98.15,98.15,31.875127555556706,31.37242347523321,"4,214,313","164,742",18.15
 EfficientNetB0 (Fine-Tuned),Transfer Learning (Fine-Tuned),98.89,98.96,98.89,98.89,98.89,25.896311925920333,38.61553733445234,"4,214,313","1,619,302",29.24

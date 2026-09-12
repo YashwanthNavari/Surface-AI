@@ -203,7 +203,7 @@ All quantitative metrics are measured on an untouched **270-image stratified tes
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **EfficientNetB0 Fine-Tuned** | Transfer Learning + Fine-Tuning | **98.89%** | **98.89%** | 25.9 ms | 38.6 FPS | 4,214,313 | 29.2 MB |
 | **EfficientNetB0 Frozen** | ImageNet Feature Extraction | **98.15%** | **98.15%** | 31.9 ms | 31.4 FPS | 4,214,313 | 18.2 MB |
-| **Custom 4-Stage CNN** | Deep Learning from Scratch | **94.07%** | **94.03%** | **16.9 ms** | **59.2 FPS** | **422,086** | **4.9 MB** |
+| **Custom 4-Stage CNN** | Deep Learning from Scratch | **91.11%** | **90.93%** | **16.9 ms** | **59.2 FPS** | **422,086** | **4.9 MB** |
 | **HOG + GLCM + SVM** | Classical ML Baseline | 92.22% | 92.16% | 10.7 ms | 93.5 FPS | N/A | N/A |
 
 ### Model Selection Profiles
@@ -215,7 +215,7 @@ All quantitative metrics are measured on an untouched **270-image stratified tes
   - Architecture: ImageNet backbone with top convolutional blocks unfrozen and trained at a reduced learning rate ($1 \times 10^{-5}$).
 
 - **Edge-Oriented Champion: Custom 4-Stage CNN**
-  - Test Accuracy: **94.07%**
+  - Test Accuracy: **91.11%**
   - Parameters: **422,086** (10x smaller than EfficientNet)
   - Disk Footprint: **4.9 MB** (6x smaller footprint)
   - CPU Latency: **16.9 ms** (53% faster inference)
@@ -225,7 +225,7 @@ All quantitative metrics are measured on an untouched **270-image stratified tes
 
 The empirical data demonstrates a fundamental engineering trade-off:
 - **Accuracy is not free**: Reaching $>98\%$ accuracy requires pre-trained visual representations and deeper parameter spaces ($4.2\text{M}$ parameters).
-- **Edge suitability**: For constrained micro-controllers, smart industrial cameras, or low-power embedded edge nodes, the Custom CNN achieves strong discrimination ($94.07\%$) within a $4.9\text{ MB}$ footprint at $59.2\text{ FPS}$ on commodity CPU hardware.
+- **Edge suitability**: For constrained micro-controllers, smart industrial cameras, or low-power embedded edge nodes, the Custom CNN achieves strong discrimination ($91.11\%$) within a $4.9\text{ MB}$ footprint at $59.2\text{ FPS}$ on commodity CPU hardware.
 
 ---
 
@@ -474,8 +474,8 @@ To evaluate the contribution of individual regularization techniques, controlled
 
 | Experiment ID | Configuration Description | Test Accuracy | Status |
 | :--- | :--- | :---: | :---: |
-| **CNN-A** | Baseline CNN (without data augmentation) | 94.07% | **Evaluated** |
-| **CNN-B** | CNN + Training-Time Data Augmentation | 94.07% | **Evaluated** |
+| **CNN-A** | Baseline CNN (without data augmentation) | 91.11% | **Evaluated** |
+| **CNN-B** | CNN + Training-Time Data Augmentation | 91.11% | **Evaluated** |
 | **CNN-C** | CNN + Data Augmentation + BatchNorm + Dropout | 25.19% | **Evaluated (Early Stopped)** |
 | **L2 Regularization** | Weight Decay ($\lambda = 1\times 10^{-4}$) on Conv kernels | — | *Planned / Extensible* |
 | **Optimizer Ablation** | Alternate Optimizers (SGD with Momentum, RMSprop) | — | *Planned / Extensible* |

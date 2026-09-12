@@ -13,11 +13,11 @@ export const ABLATION_STUDY_DATA = [
     dropout: 0.0,
     epochsTrained: 25,
     trainDurationSec: 2660.47,
-    testAccuracy: 94.07,
+    testAccuracy: 91.11,
     macroPrecision: 94.16,
-    macroRecall: 94.07,
-    macroF1: 94.07,
-    weightedF1: 94.07,
+    macroRecall: 91.11,
+    macroF1: 91.11,
+    weightedF1: 91.11,
     latencyMs: 23.44,
     throughputFps: 42.7,
     totalParams: 422086,
@@ -32,11 +32,11 @@ export const ABLATION_STUDY_DATA = [
     dropout: 0.0,
     epochsTrained: 30,
     trainDurationSec: 868.62,
-    testAccuracy: 94.07,
-    macroPrecision: 94.11,
-    macroRecall: 94.07,
-    macroF1: 94.03,
-    weightedF1: 94.03,
+    testAccuracy: 91.11,
+    macroPrecision: 91.01,
+    macroRecall: 91.11,
+    macroF1: 90.93,
+    weightedF1: 90.93,
     latencyMs: 16.88,
     throughputFps: 59.2,
     totalParams: 422086,
@@ -68,5 +68,5 @@ export const ABLATION_STUDY_DATA = [
 
 export const TECHNICAL_ABLATION_INSIGHT = {
   title: 'Key Academic & Empirical Insight: Batch Normalization Dynamics',
-  summary: `In Keras 3 with small batch sizes (N=32) and high learning rates (1e-3), Batch Normalization applied to custom convolutional layers from scratch can induce a high disparity between the minibatch sample statistics used during training and the running moving average statistics used during evaluation. CNN-A and CNN-B converged stably to 94.07% accuracy without BN. In contrast, during Transfer Learning with EfficientNetB0, freezing all pre-trained BatchNorm layers (layer.trainable = False) prevented catastrophic forgetting of ImageNet statistics, enabling fine-tuning to reach the peak benchmark of 98.89% test accuracy.`
+  summary: `In Keras 3 with small batch sizes (N=32) and high learning rates (1e-3), Batch Normalization applied to custom convolutional layers from scratch can induce a high disparity between the minibatch sample statistics used during training and the running moving average statistics used during evaluation. CNN-A and CNN-B converged stably to 91.11% accuracy without BN. In contrast, during Transfer Learning with EfficientNetB0, freezing all pre-trained BatchNorm layers (layer.trainable = False) prevented catastrophic forgetting of ImageNet statistics, enabling fine-tuning to reach the peak benchmark of 98.89% test accuracy.`
 };

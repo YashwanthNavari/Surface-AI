@@ -50,16 +50,42 @@ export default function ResearchLab() {
       [0, 3, 0, 0, 0, 42],   // Scratches (3 confused as Inclusion)
     ],
     custom_cnn: [
-      [44, 0, 0, 0, 1, 0],
-      [0, 40, 0, 3, 0, 2],
+      [44, 0, 1, 0, 0, 0],
+      [0, 40, 0, 5, 0, 0],
       [0, 0, 45, 0, 0, 0],
-      [1, 5, 0, 32, 2, 5],
+      [2, 3, 1, 33, 2, 4],
       [1, 0, 0, 0, 44, 0],
-      [1, 3, 0, 1, 0, 40],
+      [0, 5, 0, 0, 0, 40],
     ],
   };
 
   const activeMatrix = confusionMatrixData[selectedPerClassModel] || confusionMatrixData.efficientnet_finetuned;
+
+  const getModelNameCol = (name) => {
+    if (name.includes('Custom')) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <strong>{name}</strong>
+          <span className="badge badge-blue" style={{ fontSize: '10px' }}>Edge</span>
+        </div>
+      );
+    }
+    if (name.includes('Fine-Tuned')) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <strong>{name}</strong>
+          <span className="badge badge-green" style={{ fontSize: '10px' }}>Best</span>
+        </div>
+      );
+    }
+    return <strong>{name}</strong>;
+  };
+
+  const getAccuracyStyle = (name) => {
+    if (name.includes('Custom')) return { color: 'var(--accent-blue)', fontWeight: 600 };
+    if (name.includes('Fine-Tuned')) return { color: 'var(--accent-green)', fontWeight: 700 };
+    return {};
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -124,8 +150,18 @@ export default function ResearchLab() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* KPI Row */}
           <div className="kpi-grid">
-            <MetricCard label="Top-1 accuracy" value="98.89%" subtext="Fine-Tuned EfficientNetB0" highlightColor="var(--accent-green)" />
-            <MetricCard label="Custom CNN" value="94.07%" subtext="From-scratch architecture" highlightColor="var(--accent-blue)" />
+            <MetricCard 
+              label="Top-1 accuracy" 
+              value={metrics?.models?.find(m => m.Model.includes('Fine-Tuned'))?.['Accuracy (%)'] + '%' || "98.89%"} 
+              subtext="Fine-Tuned EfficientNetB0" 
+              highlightColor="var(--accent-green)" 
+            />
+            <MetricCard 
+              label="Custom CNN" 
+              value={metrics?.models?.find(m => m.Model.includes('Custom'))?.['Accuracy (%)'] + '%' || "91.11%"} 
+              subtext="From-scratch architecture" 
+              highlightColor="var(--accent-blue)" 
+            />
             <MetricCard label="Transfer gain" value="+4.08%" subtext="Pretrained ImageNet features" />
             <MetricCard label="Fine-tune gain" value="+0.74%" subtext="Unfreezing top 30 conv layers" />
             <MetricCard label="Error rate" value="1.11%" subtext="3 / 270 test samples" />
@@ -164,10 +200,10 @@ export default function ResearchLab() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
                     <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>Custom 4-Stage CNN (From Scratch)</span>
-                    <span className="mono" style={{ fontWeight: 600 }}>94.07%</span>
+                    <span className="mono" style={{ fontWeight: 600 }}>91.11%</span>
                   </div>
                   <div style={{ width: '100%', height: '8px', background: 'var(--border-default)', borderRadius: '4px', overflow: 'hidden' }}>
-                    <div style={{ width: '94.07%', height: '100%', background: '#6B7280', borderRadius: '4px' }} />
+                    <div style={{ width: '91.11%', height: '100%', background: '#6B7280', borderRadius: '4px' }} />
                   </div>
                 </div>
 
@@ -260,56 +296,29 @@ export default function ResearchLab() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>HOG + GLCM + SVM</strong></td>
-                <td>Classical ML Baseline</td>
-                <td className="mono">92.22%</td>
-                <td className="mono">92.16%</td>
-                <td className="mono">10.7 ms</td>
-                <td className="mono">93.5 FPS</td>
-                <td className="mono">N/A</td>
-                <td className="mono">N/A</td>
-              </tr>
-              <tr>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <strong>Custom 4-Stage CNN</strong>
-                    <span className="badge badge-blue" style={{ fontSize: '10px' }}>Edge</span>
-                  </div>
-                </td>
-                <td>Deep Learning from Scratch</td>
-                <td className="mono" style={{ color: 'var(--accent-blue)', fontWeight: 600 }}>94.07%</td>
-                <td className="mono">94.03%</td>
-                <td className="mono">16.9 ms</td>
-                <td className="mono">59.2 FPS</td>
-                <td className="mono">422,086</td>
-                <td className="mono">4.9 MB</td>
-              </tr>
-              <tr>
-                <td><strong>EfficientNetB0 (Frozen)</strong></td>
-                <td>Transfer Learning (ImageNet)</td>
-                <td className="mono">98.15%</td>
-                <td className="mono">98.15%</td>
-                <td className="mono">31.9 ms</td>
-                <td className="mono">31.4 FPS</td>
-                <td className="mono">4,214,313 (164K train)</td>
-                <td className="mono">18.2 MB</td>
-              </tr>
-              <tr style={{ background: 'var(--bg-surface-subtle)' }}>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <strong>EfficientNetB0 (Fine-Tuned)</strong>
-                    <span className="badge badge-green" style={{ fontSize: '10px' }}>Best</span>
-                  </div>
-                </td>
-                <td>Transfer Learning + Fine-Tuning</td>
-                <td className="mono" style={{ color: 'var(--accent-green)', fontWeight: 700 }}>98.89%</td>
-                <td className="mono" style={{ color: 'var(--accent-green)', fontWeight: 700 }}>98.89%</td>
-                <td className="mono">25.9 ms</td>
-                <td className="mono">38.6 FPS</td>
-                <td className="mono">4,214,313 (1.6M train)</td>
-                <td className="mono">29.2 MB</td>
-              </tr>
+              {metrics?.models?.map((row, idx) => {
+                const isBest = row.Model.includes('Fine-Tuned');
+                return (
+                  <tr key={idx} style={isBest ? { background: 'var(--bg-surface-subtle)' } : {}}>
+                    <td>{getModelNameCol(row.Model)}</td>
+                    <td>{row.Type}</td>
+                    <td className="mono" style={getAccuracyStyle(row.Model)}>
+                      {Number(row['Accuracy (%)']).toFixed(2)}%
+                    </td>
+                    <td className="mono" style={getAccuracyStyle(row.Model)}>
+                      {Number(row['Macro F1 (%)']).toFixed(2)}%
+                    </td>
+                    <td className="mono">
+                      {isNaN(Number(row['Latency (ms)'])) ? row['Latency (ms)'] : Number(row['Latency (ms)']).toFixed(1)} ms
+                    </td>
+                    <td className="mono">
+                      {isNaN(Number(row['Throughput (FPS)'])) ? row['Throughput (FPS)'] : Number(row['Throughput (FPS)']).toFixed(1)} FPS
+                    </td>
+                    <td className="mono">{row['Total Parameters']}</td>
+                    <td className="mono">{row['Disk Size (MB)']} {row['Disk Size (MB)'] !== 'N/A' && 'MB'}</td>
+                  </tr>
+                );
+              }) || <tr><td colSpan="8" style={{textAlign: 'center'}}>Loading metrics...</td></tr>}
             </tbody>
           </table>
         </div>

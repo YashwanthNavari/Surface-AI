@@ -3,6 +3,7 @@ import { UploadCloud, ArrowRight, RefreshCw, CheckCircle2, Radio, AlertTriangle 
 import ImageViewer from './ImageViewer';
 import StatusBadge from './StatusBadge';
 import ConfidenceBar from './ConfidenceBar';
+import { API_BASE_URL } from '../config';
 
 export default function LiveInspection({
   onInspect,
@@ -30,7 +31,7 @@ export default function LiveInspection({
 
   // Fetch benchmark sample image thumbnails from backend
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/v1/samples')
+    fetch(`${API_BASE_URL}/api/v1/samples`)
       .then((res) => res.json())
       .then((data) => {
         // One unique sample per class
@@ -54,7 +55,7 @@ export default function LiveInspection({
       formData.append('file', selectedFile);
       formData.append('model_name', 'efficientnet_finetuned');
 
-      fetch('http://127.0.0.1:8000/api/v1/explain', {
+      fetch(`${API_BASE_URL}/api/v1/explain`, {
         method: 'POST',
         body: formData,
       })
@@ -112,7 +113,7 @@ export default function LiveInspection({
 
   const handleSampleClick = async (sample) => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000${sample.url}`);
+      const res = await fetch(`${API_BASE_URL}${sample.url}`);
       const blob = await res.blob();
       const file = new File([blob], sample.filename, { type: 'image/jpeg' });
       handleFileChange(file);
@@ -133,8 +134,8 @@ export default function LiveInspection({
     return name.replace('_', ' ').replace('-', ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
-  const isAgreed = inspectionResult?.consensus?.status === 'AGREED' || inspectionResult?.consensus?.status === 'CONSENSUS';
-  const confidencePct = inspectionResult ? (inspectionResult.primary_prediction.confidence * 100).toFixed(1) : '0.0';
+  const isAgreed = inspectionResult?.consensus_status === 'CONSENSUS_AGREED';
+  const confidencePct = inspectionResult ? (inspectionResult.primary_confidence * 100).toFixed(1) : '0.0';
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -222,7 +223,7 @@ export default function LiveInspection({
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginTop: '4px' }}>
                   <div className="verdict-class-name">
-                    {formatClassName(inspectionResult.primary_prediction.defect_class)}
+                    {formatClassName(inspectionResult.primary_prediction)}
                   </div>
                   <div className="verdict-confidence-badge">
                     {confidencePct}%
@@ -231,7 +232,7 @@ export default function LiveInspection({
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
                   <StatusBadge type={isAgreed ? 'agreed' : 'disagreed'}>
-                    {isAgreed ? '3/3 models agree' : 'Arbitration required'}
+                    {isAgreed ? `${inspectionResult.consensus_count}/${inspectionResult.total_models} Confirmed` : 'Arbitration required'}
                   </StatusBadge>
                   <StatusBadge type={confidencePct >= 95 ? 'success' : 'warning'}>
                     {confidencePct >= 95 ? 'Defect confirmed' : 'Manual review recommended'}
@@ -316,7 +317,7 @@ export default function LiveInspection({
               <div className="telemetry-strip">
                 <div>
                   <div className="telemetry-cell-label">Latency</div>
-                  <div className="telemetry-cell-value">25.9 ms</div>
+                  <div className="telemetry-cell-value">{inspectionResult.inference_time_ms ? `${inspectionResult.inference_time_ms} ms` : '25.9 ms'}</div>
                 </div>
                 <div>
                   <div className="telemetry-cell-label">Resolution</div>
@@ -325,13 +326,13 @@ export default function LiveInspection({
                 <div>
                   <div className="telemetry-cell-label">Consensus</div>
                   <div className="telemetry-cell-value" style={{ color: isAgreed ? 'var(--accent-green)' : 'var(--accent-amber)' }}>
-                    {isAgreed ? '3/3 Confirmed' : 'Arbitration'}
+                    {isAgreed ? `${inspectionResult.consensus_count}/${inspectionResult.total_models} Confirmed` : 'Arbitration'}
                   </div>
                 </div>
                 <div>
                   <div className="telemetry-cell-label">Action</div>
                   <div className="telemetry-cell-value" style={{ fontSize: '11px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    Quarantine
+                    {inspectionResult.recommendation === 'Automated Pass' || inspectionResult.recommendation.includes('Pass') ? 'Pass' : 'Quarantine'}
                   </div>
                 </div>
               </div>
@@ -397,7 +398,7 @@ export default function LiveInspection({
                     onClick={() => handleSampleClick(sample)}
                   >
                     <img
-                      src={`http://127.0.0.1:8000${sample.url}`}
+                      src={`${API_BASE_URL}${sample.url}`}
                       alt={sample.class}
                       className="sample-thumbnail-img"
                     />

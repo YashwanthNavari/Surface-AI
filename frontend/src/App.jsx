@@ -5,6 +5,7 @@ import LiveInspection from './components/LiveInspection';
 import ExplainabilityLab from './components/ExplainabilityLab';
 import ResearchLab from './components/ResearchLab';
 import HistoryStream from './components/HistoryStream';
+import { API_BASE_URL } from './config';
 
 export default function App() {
   const [activeWorkspace, setActiveWorkspace] = useState('inspect'); // Hero Live Inspection default
@@ -31,7 +32,7 @@ export default function App() {
   // Fetch backend status and history stats
   const fetchStatusAndHistory = useCallback(async () => {
     try {
-      const resHealth = await fetch('http://127.0.0.1:8000/');
+      const resHealth = await fetch(`${API_BASE_URL}/`);
       if (resHealth.ok) {
         const data = await resHealth.json();
         setSystemStatus(data.status || 'ONLINE');
@@ -43,7 +44,7 @@ export default function App() {
     }
 
     try {
-      const resHist = await fetch('http://127.0.0.1:8000/api/v1/history?limit=15');
+      const resHist = await fetch(`${API_BASE_URL}/api/v1/history?limit=15`);
       if (resHist.ok) {
         const data = await resHist.json();
         setRecentHistory(data);
@@ -68,7 +69,7 @@ export default function App() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const res = await fetch('http://127.0.0.1:8000/api/v1/predict', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/predict`, {
         method: 'POST',
         body: formData,
       });
@@ -99,12 +100,12 @@ export default function App() {
   const handleSampleSelect = async (defectClass, setPreviewCallback) => {
     try {
       setLoading(true);
-      const res = await fetch('http://127.0.0.1:8000/api/v1/samples');
+      const res = await fetch(`${API_BASE_URL}/api/v1/samples`);
       const samples = await res.json();
       const match = samples.find((s) => s.class === defectClass) || samples[0];
 
       if (match) {
-        const imgRes = await fetch(`http://127.0.0.1:8000${match.url}`);
+        const imgRes = await fetch(`${API_BASE_URL}${match.url}`);
         const blob = await imgRes.blob();
         const file = new File([blob], match.filename, { type: 'image/jpeg' });
         const previewUrl = URL.createObjectURL(blob);
@@ -123,11 +124,11 @@ export default function App() {
   const handleSelectHistoryItem = async (historyItem) => {
     try {
       setLoading(true);
-      const res = await fetch('http://127.0.0.1:8000/api/v1/samples');
+      const res = await fetch(`${API_BASE_URL}/api/v1/samples`);
       const samples = await res.json();
       const match = samples.find((s) => s.class === historyItem.primary_prediction) || samples[0];
       if (match) {
-        const imgRes = await fetch(`http://127.0.0.1:8000${match.url}`);
+        const imgRes = await fetch(`${API_BASE_URL}${match.url}`);
         const blob = await imgRes.blob();
         const file = new File([blob], historyItem.filename || match.filename, { type: 'image/jpeg' });
         setCurrentFile(file);

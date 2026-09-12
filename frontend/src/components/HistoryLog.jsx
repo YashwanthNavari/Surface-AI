@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { History, CheckCircle2, AlertTriangle, Download, RefreshCw } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export default function HistoryLog() {
   const [history, setHistory] = useState([]);
@@ -7,7 +8,7 @@ export default function HistoryLog() {
 
   const fetchHistory = () => {
     setLoading(true);
-    fetch('http://127.0.0.1:8000/api/v1/history?limit=50')
+    fetch(`${API_BASE_URL}/api/v1/history?limit=50`)
       .then((res) => res.json())
       .then((data) => {
         setHistory(data);
